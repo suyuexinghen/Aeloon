@@ -12,9 +12,9 @@ from pydantic.alias_generators import to_camel
 
 def load_acp_config() -> dict[str, Any]:
     """Load ACP Bridge configuration from external acp.json file.
-    
+
     Checks for ~/.aeloon/acp.json first, then falls back to main config.
-    
+
     Returns:
         Configuration dictionary loaded from file or empty dict if not found.
     """
@@ -22,7 +22,7 @@ def load_acp_config() -> dict[str, Any]:
         Path.home() / ".aeloon" / "acp.json",
         Path.home() / ".config" / "aeloon" / "acp.json",
     ]
-    
+
     for config_path in config_paths:
         if config_path.exists():
             try:
@@ -34,7 +34,7 @@ def load_acp_config() -> dict[str, Any]:
                 logging.getLogger(__name__).warning(
                     f"Failed to load ACP config from {config_path}: {e}"
                 )
-    
+
     return {}
 
 

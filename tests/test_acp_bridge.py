@@ -331,8 +331,8 @@ class TestACPConnectionService:
 class TestACPCommands:
     @pytest.mark.asyncio
     async def test_list_profiles_includes_default_and_custom(self, monkeypatch) -> None:
-        from aeloon.plugins.acp_bridge.commands import _cmd_list
         from aeloon.plugins._sdk.types import CommandContext
+        from aeloon.plugins.acp_bridge.commands import _cmd_list
 
         monkeypatch.setattr(
             "aeloon.plugins.acp_bridge.commands._get_merged_plugin_config",

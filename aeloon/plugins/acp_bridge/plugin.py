@@ -24,15 +24,15 @@ logger = logging.getLogger(__name__)
 
 def _merge_acp_config(api_config: dict[str, Any]) -> dict[str, Any]:
     """Merge external acp.json with main config.
-    
+
     External config takes precedence over main config.
     """
     from .config import load_acp_config
-    
+
     external = load_acp_config()
     if not external:
         return api_config
-    
+
     # Merge external config into api_config
     # External values take precedence
     merged = dict(api_config)
@@ -101,7 +101,7 @@ class ACPBridgePlugin(Plugin):
         # External config (~/.aeloon/acp.json) takes precedence
         original_config = dict(api.config)
         merged_config = _merge_acp_config(original_config)
-        
+
         # Update the runtime config reference
         if merged_config != original_config:
             logger.info("Loaded ACP Bridge configuration from external acp.json")

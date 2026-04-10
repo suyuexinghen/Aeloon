@@ -13,18 +13,18 @@ if TYPE_CHECKING:
 
 def _get_merged_plugin_config(ctx: CommandContext) -> dict[str, Any]:
     """Get plugin config merged with external acp.json if available.
-    
+
     External config takes precedence over main config.
     """
     from .config import load_acp_config
-    
+
     main_config = dict(ctx.plugin_config)
     external_config = load_acp_config()
-    
+
     if external_config:
         # External values take precedence
         main_config.update(external_config)
-    
+
     return main_config
 
 HELP_TEXT = """\
@@ -100,7 +100,7 @@ async def _cmd_connect(
     """Handle ``/acp connect [profile]``."""
     # Merge external acp.json with main config
     config = _get_merged_plugin_config(ctx)
-    
+
     profile_name = args.strip() or config.get("default_profile", "claude_code")
 
     # Resolve profile from merged config (includes external acp.json)
