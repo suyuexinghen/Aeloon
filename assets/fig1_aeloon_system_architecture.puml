@@ -1,0 +1,55 @@
+@startuml fig1_aeloon_system_architecture
+!theme plain
+skinparam backgroundColor white
+skinparam defaultFontName "Noto Sans CJK SC, DejaVu Sans"
+skinparam packageStyle rectangle
+skinparam padding 8
+skinparam wrapWidth 120
+
+title Aeloon 智能体系统架构
+
+skinparam rectangle {
+    RoundCorner 10
+}
+skinparam usecase {
+    BorderColor transparent
+    BackgroundColor transparent
+}
+
+actor "用户" as User #white
+
+rectangle "接入层\n(Entry)" as L1 #E8F5E9
+rectangle "消息总线层\n(Message Bus)" as L2 #FFF8E1
+rectangle "核心编排层\n(Orchestration)" as L3 #E3F2FD
+rectangle "内核执行层\n(Kernel)" as L4 #F3E5F5
+rectangle "LLM 提供商层\n(Providers)" as L6 #E8EAF6
+
+package "能力层 (Capabilities)" as L5 #FFF3E0 {
+  usecase " " as Gap #white
+  rectangle "工具\n(Tools)" as L5T #FFF3E0
+  rectangle "记忆与技能\n(Memory & Skills)" as L5M #FFEBEE
+  rectangle "插件与后台服务\n(Plugin SDK & Services)" as L5P #ECEFF1
+  rectangle "ACP 桥接\n(ACP Bridge)" as ACPBridge #E1F5FE
+}
+
+database "持久化存储\n(Storage)" as Storage #E0E0E0
+cloud "LLM服务\n(LLM Services)" as Cloud #FCE4EC
+cloud "外部智能体\n(External Agents)\n Claude, Codex, Cursor, Kimi-cli,..." as ACPAgents #E1F5FE
+
+User -left-> L1
+L1 -left-> L2
+L2 -down-> L3
+L3 -down-> L4
+L4 -left-> L6
+L4 -right-> Gap
+
+L6 -up-> Cloud
+L5 -right-> Storage
+ACPBridge -right-> ACPAgents
+
+Gap -[hidden]right-> L5T
+L5T -[hidden]right-> L5M
+L5T -[hidden]down-> L5P
+L5P -[hidden]right-> ACPBridge
+
+@enduml

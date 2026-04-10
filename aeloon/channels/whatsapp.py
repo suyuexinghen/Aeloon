@@ -1,0 +1,182 @@
+"""WhatsApp channel backed by the local bridge."""
+
+import asyncio
+import json
+import mimetypes
+from collections import OrderedDict
+from typing import Any
+
+from loguru import logger
+from pydantic import Field
+
+from aeloon.channels.base import BaseChannel
+from aeloon.core.bus.events import OutboundMessage
+from aeloon.core.bus.queue import MessageBus
+from aeloon.core.config.schema import Base
+
+
+class WhatsAppConfig(Base):
+    """Config for the WhatsApp bridge channel."""
+
+    enabled: bool = False
+    bridge_url: str = "ws://localhost:3001"
+    bridge_token: str = ""
+    allow_from: list[str] = Field(default_factory=list)
+
+
+class WhatsAppChannel(BaseChannel):
+    """WhatsApp channel that talks to the local Node.js bridge."""
+
+    name = "whatsapp"
+    display_name = "WhatsApp"
+
+    @classmethod
+    def default_config(cls) -> dict[str, Any]:
+        return WhatsAppConfig().model_dump(by_alias=True)
+
+    def __init__(self, config: Any, bus: MessageBus):
+        if isinstance(config, dict):
+            config = WhatsAppConfig.model_validate(config)
+        super().__init__(config, bus)
+        self._ws = None
+        self._connected = False
+        self._processed_message_ids: OrderedDict[str, None] = OrderedDict()
+
+    async def start(self) -> None:
+        """Connect to the bridge and read incoming events."""
+        import websockets
+
+        bridge_url = self.config.bridge_url
+
+        logger.info("Connecting to WhatsApp bridge at {}...", bridge_url)
+
+        self._running = True
+
+        while self._running:
+            try:
+                async with websockets.connect(bridge_url) as ws:
+                    self._ws = ws
+                    # Send the bridge token when configured.
+                    if self.config.bridge_token:
+                        await ws.send(
+                            json.dumps({"type": "auth", "token": self.config.bridge_token})
+                        )
+                    self._connected = True
+                    logger.info("Connected to WhatsApp bridge")
+
+                    # Read events until the socket closes.
+                    async for message in ws:
+                        try:
+                            await self._handle_bridge_message(message)
+                        except Exception as e:
+                            logger.error("Error handling bridge message: {}", e)
+
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                self._connected = False
+                self._ws = None
+                logger.warning("WhatsApp bridge connection error: {}", e)
+
+                if self._running:
+                    logger.info("Reconnecting in 5 seconds...")
+                    await asyncio.sleep(5)
+
+    async def stop(self) -> None:
+        """Stop the WhatsApp channel."""
+        self._running = False
+        self._connected = False
+
+        if self._ws:
+            await self._ws.close()
+            self._ws = None
+
+    async def send(self, msg: OutboundMessage) -> None:
+        """Send a text message through the bridge."""
+        if not self._ws or not self._connected:
+            logger.warning("WhatsApp bridge not connected")
+            return
+
+        try:
+            payload = {"type": "send", "to": msg.chat_id, "text": msg.content}
+            await self._ws.send(json.dumps(payload, ensure_ascii=False))
+        except Exception as e:
+            logger.error("Error sending WhatsApp message: {}", e)
+
+    async def _handle_bridge_message(self, raw: str) -> None:
+        """Handle one event from the bridge."""
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError:
+            logger.warning("Invalid JSON from bridge: {}", raw[:100])
+            return
+
+        msg_type = data.get("type")
+
+        if msg_type == "message":
+            # Legacy phone-style sender id.
+            pn = data.get("pn", "")
+            # New LID-style sender id.
+            sender = data.get("sender", "")
+            content = data.get("content", "")
+            message_id = data.get("id", "")
+
+            if message_id:
+                if message_id in self._processed_message_ids:
+                    return
+                self._processed_message_ids[message_id] = None
+                while len(self._processed_message_ids) > 1000:
+                    self._processed_message_ids.popitem(last=False)
+
+            # Build the sender id used by Aeloon.
+            user_id = pn if pn else sender
+            sender_id = user_id.split("@")[0] if "@" in user_id else user_id
+            logger.info("Sender {}", sender)
+
+            # Voice downloads are not supported by the bridge yet.
+            if content == "[Voice Message]":
+                logger.info(
+                    "Voice message received from {}, but direct download from bridge is not yet supported.",
+                    sender_id,
+                )
+                content = "[Voice Message: Transcription not available for WhatsApp yet]"
+
+            # Media files are downloaded by the bridge.
+            media_paths = data.get("media") or []
+
+            # Append media tags so downstream handling stays consistent.
+            if media_paths:
+                for p in media_paths:
+                    mime, _ = mimetypes.guess_type(p)
+                    media_type = "image" if mime and mime.startswith("image/") else "file"
+                    media_tag = f"[{media_type}: {p}]"
+                    content = f"{content}\n{media_tag}" if content else media_tag
+
+            await self._handle_message(
+                sender_id=sender_id,
+                chat_id=sender,  # Keep the full bridge sender id for replies.
+                content=content,
+                media=media_paths,
+                metadata={
+                    "message_id": message_id,
+                    "timestamp": data.get("timestamp"),
+                    "is_group": data.get("isGroup", False),
+                },
+            )
+
+        elif msg_type == "status":
+            # Update the cached bridge state.
+            status = data.get("status")
+            logger.info("WhatsApp status: {}", status)
+
+            if status == "connected":
+                self._connected = True
+            elif status == "disconnected":
+                self._connected = False
+
+        elif msg_type == "qr":
+            # The QR code is shown in the bridge terminal.
+            logger.info("Scan QR code in the bridge terminal to connect WhatsApp")
+
+        elif msg_type == "error":
+            logger.error("WhatsApp bridge error: {}", data.get("error"))

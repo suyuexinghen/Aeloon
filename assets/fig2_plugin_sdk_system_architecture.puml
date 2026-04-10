@@ -1,0 +1,35 @@
+@startuml fig1_plugin_sdk_system_architecture
+!theme plain
+skinparam backgroundColor white
+skinparam defaultFontName "Noto Sans CJK SC, DejaVu Sans"
+skinparam packageStyle rectangle
+skinparam padding 8
+skinparam wrapWidth 120
+
+title Aeloon Plugin SDK 系统架构
+
+skinparam rectangle {
+    RoundCorner 10
+}
+
+
+rectangle "插件管理\n(Manager)" as Manager #E3F2FD
+rectangle "平台接入层\n(Runtime)" as Runtime #FFF8E1
+rectangle "注册与扩展\n(API / Hook / Tool / Service / ACP)" as Extensions #FFF3E0
+rectangle "配置与清单\n(Manifest / Config)" as Manifest #FFEBEE
+cloud "模型与接口\n(LLM / API)" as External #FCE4EC
+database "插件存储\n(Storage)" as Storage #ECEFF1
+
+package "插件实例 (Instances)" as Plugins #F3E5F5 {
+  rectangle "StatusPannel, PluginCreator, ScienceResearch, SkillGraph, AeloonWiki, …" as PluginList #F3E5F5
+}
+
+
+Manager -down-> Runtime
+Runtime -down-> Extensions
+Manager -right-> Manifest
+Runtime -left-> External
+Runtime -down-> Storage
+Runtime -right-> PluginList
+
+@enduml

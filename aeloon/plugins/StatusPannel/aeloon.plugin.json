@@ -1,0 +1,18 @@
+{
+  "id": "aeloon.status",
+  "name": "Status Bar",
+  "version": "0.1.0",
+  "description": "Default status bar showing model name and context window usage",
+  "author": "Aeloon Team",
+  "entry": "aeloon.plugins.StatusPannel.plugin:StatusPlugin",
+  "provides": {
+    "commands": [],
+    "tools": []
+  },
+  "requires": {
+    "aeloon_version": ">=0.1.0",
+    "plugins": [],
+    "bins": [],
+    "env": []
+  }
+}

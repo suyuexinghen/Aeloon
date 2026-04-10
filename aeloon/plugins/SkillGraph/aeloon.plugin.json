@@ -1,0 +1,15 @@
+{
+  "id": "aeloon.skillgraph",
+  "name": "SkillGraph",
+  "version": "0.1.0",
+  "description": "Compile workspace skills into resumable workflow tools",
+  "author": "AetherHeart",
+  "entry": "aeloon.plugins.SkillGraph.plugin:SkillGraphPlugin",
+  "provides": {
+    "commands": ["skill_compiler"],
+    "tools": ["resume_workflow"]
+  },
+  "requires": {
+    "aeloon_version": ">=0.1.0"
+  }
+}

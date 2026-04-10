@@ -1,0 +1,15 @@
+{
+  "id": "aeloon.wiki",
+  "name": "Wiki",
+  "version": "0.1.0",
+  "description": "Local wiki with raw ingest, digest scaffolding, and grounded query support",
+  "author": "Aeloon Team",
+  "entry": "aeloon.plugins.Wiki.plugin:WikiPlugin",
+  "provides": {
+    "commands": ["wiki"],
+    "middlewares": ["wiki_query_context"]
+  },
+  "requires": {
+    "aeloon_version": ">=0.1.0"
+  }
+}

@@ -1,0 +1,1 @@
+"""PluginCreator compat package."""

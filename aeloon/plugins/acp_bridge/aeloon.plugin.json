@@ -1,0 +1,22 @@
+{
+  "id": "aeloon.acp_bridge",
+  "name": "ACP Bridge",
+  "version": "0.1.0",
+  "description": "Agent Client Protocol bridge for connecting to external ACP agents",
+  "author": "Aeloon Team",
+  "entry": "aeloon.plugins.acp_bridge.plugin:ACPBridgePlugin",
+  "provides": {
+    "commands": ["acp"],
+    "services": ["acp_connection"],
+    "config_schema": "ACPBridgeConfig"
+  },
+  "requires": {
+    "aeloon_version": ">=0.1.0",
+    "plugins": [],
+    "bins": [],
+    "env": []
+  },
+  "config": {
+    "enabled": true
+  }
+}

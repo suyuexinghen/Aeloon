@@ -1,0 +1,15 @@
+{
+  "id": "aeloon.science",
+  "name": "AI4S Science Agent",
+  "version": "0.1.0",
+  "description": "AI for Science agent mode with DAG orchestration, validation, and governance",
+  "author": "AetherHeart",
+  "entry": "aeloon.plugins.ScienceResearch.plugin:SciencePlugin",
+  "provides": {
+    "commands": ["sr"],
+    "middlewares": ["science_audit", "science_budget", "science_risk_gate"]
+  },
+  "requires": {
+    "aeloon_version": ">=0.1.0"
+  }
+}

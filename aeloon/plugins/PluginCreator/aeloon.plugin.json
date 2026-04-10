@@ -1,0 +1,15 @@
+{
+  "id": "aeloon.plugincreator",
+  "name": "PluginCreator",
+  "version": "0.1.0",
+  "description": "Intelligent plugin development workflow agent",
+  "author": "AetherHeart",
+  "entry": "aeloon.plugins.PluginCreator.plugin:PluginCreatorPlugin",
+  "provides": {
+    "commands": ["pc"],
+    "config_schema": "PluginCreatorConfig"
+  },
+  "requires": {
+    "aeloon_version": ">=0.1.0"
+  }
+}
