@@ -16,7 +16,7 @@
   <img src="./assets/Aeloon.svg" alt="Aeloon" height="40" />
 </p>
 
-A **safe · light · fast** AI agent runtime
+A **safe · light · fast** AI Agent
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
