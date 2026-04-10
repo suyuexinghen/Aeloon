@@ -30,7 +30,7 @@ A **safe · light · fast** AI Agent
 
 ## What is Aeloon?
 
-Aeloon is a message-bus-based AI assistant runtime. It unifies LLMs, tool calls, memory, and multi-channel messaging into a single runtime — you talk to it via CLI, Web UI, or IM platforms, and it orchestrates everything.
+Aeloon is a lightweight, high-performance, and modular AI agent framework featuring graph-driven parallel acceleration and flexible hot-swappable plugins for many usages (Deep research, Wiki, SkillGraph, ACP Bridge and StatusPannel).
 
 Core philosophy: **one agent, all platforms, self-hosted data, privacy first.**
 
