@@ -107,7 +107,9 @@ def session_display_messages(session) -> list[tuple[str, str]]:
     return visible
 
 
-def print_replayed_history(messages: list[tuple[str, str]], render_markdown: bool, *, console, print_agent_response) -> None:
+def print_replayed_history(
+    messages: list[tuple[str, str]], render_markdown: bool, *, console, print_agent_response
+) -> None:
     """Replay stored session messages into the interactive terminal."""
     if not messages:
         return
@@ -166,11 +168,21 @@ def build_bottom_toolbar(agent_loop, cli_channel: str, cli_chat_id: str) -> call
         model_value = str(agent_loop.model)
         width = shutil.get_terminal_size((80, 20)).columns
         min_spacing = 3
-        reserved = len("Model: ") + len(f"Context: {estimated}/{context_window} ({ratio:.0f}%)") + min_spacing
+        reserved = (
+            len("Model: ")
+            + len(f"Context: {estimated}/{context_window} ({ratio:.0f}%)")
+            + min_spacing
+        )
         available_model = max(8, width - reserved)
         if len(model_value) > available_model:
             model_value = f"{model_value[: max(1, available_model - 1)]}…"
-        spacing = max(3, width - len("Model: ") - len(model_value) - len(f"Context: {estimated}/{context_window} ({ratio:.0f}%)"))
+        spacing = max(
+            3,
+            width
+            - len("Model: ")
+            - len(model_value)
+            - len(f"Context: {estimated}/{context_window} ({ratio:.0f}%)"),
+        )
         context_style = "bold ansired" if ratio >= 90 else "ansiyellow" if ratio >= 75 else ""
         return FormattedText(
             [
@@ -209,7 +221,9 @@ def compose_welcome_banner(workspace_name: str, model_name: str) -> Panel:
 
     command_line = Text()
     command_line.append("○ ", style=dim)
-    command_line.append(f"{getpass.getuser()}@{socket.gethostname().split('.')[0]}", style="bold white")
+    command_line.append(
+        f"{getpass.getuser()}@{socket.gethostname().split('.')[0]}", style="bold white"
+    )
     command_line.append(f"  {workspace_name}  $ ", style=dim)
     command_line.append("aeloon", style=logo_style)
 

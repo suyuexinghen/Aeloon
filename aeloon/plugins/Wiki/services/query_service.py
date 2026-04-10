@@ -106,9 +106,15 @@ class QueryService:
             if target is None:
                 return ""
             included_ids = self._map_scope(target, page_records)
-            selected = [page_records[entry_id] for entry_id in sorted(included_ids) if entry_id in page_records]
+            selected = [
+                page_records[entry_id]
+                for entry_id in sorted(included_ids)
+                if entry_id in page_records
+            ]
         else:
-            selected = sorted(page_records.values(), key=lambda item: (item.page_type, item.rel_path))
+            selected = sorted(
+                page_records.values(), key=lambda item: (item.page_type, item.rel_path)
+            )
 
         lines = ["```mermaid", "graph TD"]
         lines.append('    root["Wiki"]')
@@ -153,7 +159,11 @@ class QueryService:
             ):
                 for ref in refs:
                     related = pages.get(self._normalize_ref(ref))
-                    if related is None or related.entry_id not in selected_lookup or related.page_type == "domain":
+                    if (
+                        related is None
+                        or related.entry_id not in selected_lookup
+                        or related.page_type == "domain"
+                    ):
                         continue
                     edge = (page.entry_id, related.entry_id, relation, "relation")
                     if edge in seen_edges:
@@ -357,7 +367,10 @@ class QueryService:
                 continue
             if page.page_type == "domain":
                 for candidate in page_records.values():
-                    if candidate.primary_domain == page.entry_id or page.entry_id in candidate.domain_refs:
+                    if (
+                        candidate.primary_domain == page.entry_id
+                        or page.entry_id in candidate.domain_refs
+                    ):
                         included_ids.add(candidate.entry_id)
             else:
                 if page.primary_domain:

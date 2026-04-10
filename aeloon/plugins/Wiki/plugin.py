@@ -71,7 +71,9 @@ class WikiPlugin(Plugin):
         self._query_middleware.set_enabled(self._config.auto_query_enabled)
         self._repo_service = RepoService(api.runtime.storage_path, self._config)
         self._manifest_service = ManifestService(self._repo_service)
-        self._ingest_service = IngestService(self._repo_service, self._manifest_service, self._config)
+        self._ingest_service = IngestService(
+            self._repo_service, self._manifest_service, self._config
+        )
         self._digest_service = DigestService(
             self._repo_service,
             self._manifest_service,

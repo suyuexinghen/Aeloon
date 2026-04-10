@@ -351,7 +351,9 @@ class TestACPCommands:
             session_key="s",
             channel="cli",
             reply=lambda text: replies.append(text) or __import__("asyncio").sleep(0),
-            send_progress=lambda *args, **kwargs: progress.append(str(args[0])) or __import__("asyncio").sleep(0),
+            send_progress=lambda *args, **kwargs: (
+                progress.append(str(args[0])) or __import__("asyncio").sleep(0)
+            ),
             plugin_config={},
         )
 

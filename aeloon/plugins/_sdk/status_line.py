@@ -173,9 +173,7 @@ class StatusLineManager:
             if ctx.context_tokens_total > 0
             else 0.0
         )
-        context_value = (
-            f"{ctx.context_tokens_used}/{ctx.context_tokens_total} ({ratio:.0f}%)"
-        )
+        context_value = f"{ctx.context_tokens_used}/{ctx.context_tokens_total} ({ratio:.0f}%)"
         # Full context text (with label) used only for spacing calculation.
         context_text = f"Context: {context_value}"
         model_value = ctx.model

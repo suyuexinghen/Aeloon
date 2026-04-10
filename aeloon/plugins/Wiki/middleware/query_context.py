@@ -142,10 +142,7 @@ class WikiQueryMiddleware(BaseAgentMiddleware):
             return messages
         system_message = messages[0]
         content = system_message.get("content", "")
-        if isinstance(content, str) and (
-            _EVIDENCE_SENTINEL in content
-            or _GAP_SENTINEL in content
-        ):
+        if isinstance(content, str) and (_EVIDENCE_SENTINEL in content or _GAP_SENTINEL in content):
             return messages
         mutated = list(messages)
         mutated[0] = {

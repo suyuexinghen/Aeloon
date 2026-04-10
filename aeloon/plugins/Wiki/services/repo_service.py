@@ -98,7 +98,8 @@ class RepoService:
         return WikiStatus(
             repo_root=self.repo_root,
             initialized=initialized,
-            raw_sources=self._count_files(self._layout.raw_links) + self._count_files(self._layout.raw_files),
+            raw_sources=self._count_files(self._layout.raw_links)
+            + self._count_files(self._layout.raw_files),
             domains=self._count_files(self._layout.wiki_domains),
             summaries=self._count_files(self._layout.wiki_summaries),
             concepts=self._count_files(self._layout.wiki_concepts),

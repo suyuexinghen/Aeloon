@@ -170,7 +170,9 @@ def should_open_slash_palette(
     if not segments:
         return False
     normalized = command.lstrip("/").strip().lower()
-    exact = next((segment for segment in segments if " ".join(segment.path).lower() == normalized), None)
+    exact = next(
+        (segment for segment in segments if " ".join(segment.path).lower() == normalized), None
+    )
     if exact is not None and not exact.has_children:
         return False
     return True
@@ -389,7 +391,9 @@ async def interactive_slash_palette(
             HSplit(
                 [
                     Window(
-                        content=FormattedTextControl(text=[("dim", "Type to filter slash commands")]),
+                        content=FormattedTextControl(
+                            text=[("dim", "Type to filter slash commands")]
+                        ),
                         height=1,
                     ),
                     Window(height=1, char=" "),

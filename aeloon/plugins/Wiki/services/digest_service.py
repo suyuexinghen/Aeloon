@@ -38,7 +38,9 @@ class DigestService:
         summary_artifact = self._write_page(
             page_type=WikiPageType.SUMMARY,
             primary_domain=self._normalize_domain_ref(
-                str(compiled["summary"].get("primary_domain", "")) or source.title or source.display_name
+                str(compiled["summary"].get("primary_domain", ""))
+                or source.title
+                or source.display_name
             ),
             domain_refs=self._normalize_domain_refs(compiled["summary"].get("domain_refs", [])),
             title=str(compiled["summary"]["title"]),
@@ -56,7 +58,8 @@ class DigestService:
             artifact = self._write_page(
                 page_type=WikiPageType.CONCEPT,
                 primary_domain=self._normalize_domain_ref(
-                    str(item.get("primary_domain", "")) or str(compiled["summary"].get("primary_domain", ""))
+                    str(item.get("primary_domain", ""))
+                    or str(compiled["summary"].get("primary_domain", ""))
                     or source.title
                     or source.display_name
                 ),
@@ -88,8 +91,7 @@ class DigestService:
             return []
 
         indexed_sources = {
-            source.raw_rel_path: source
-            for source in self._ingest_service.list_sources()
+            source.raw_rel_path: source for source in self._ingest_service.list_sources()
         }
         results: list[DigestResult] = []
         for raw_rel_path in sorted(pending_paths):
@@ -294,7 +296,9 @@ class DigestService:
         path = self._repo_service.layout.wiki_domains / f"{domain_id}.md"
         existing_members: list[str] = []
         if path.exists():
-            existing_members = self._frontmatter_list(path.read_text(encoding="utf-8"), "member_refs")
+            existing_members = self._frontmatter_list(
+                path.read_text(encoding="utf-8"), "member_refs"
+            )
         merged_members = sorted({*existing_members, *member_refs})
         title = self._titleize_domain(slug)
         frontmatter = [

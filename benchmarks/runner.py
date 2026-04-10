@@ -146,8 +146,7 @@ def format_results_table(rows: Iterable[ScenarioAggregate]) -> str:
     if not row_list:
         return "No benchmark results."
     header = (
-        "scenario | runs | avg_total_ms | min_total_ms | max_total_ms | "
-        "avg_llm_ms | avg_tools_ms"
+        "scenario | runs | avg_total_ms | min_total_ms | max_total_ms | avg_llm_ms | avg_tools_ms"
     )
     lines = [header, "-" * len(header)]
     for row in row_list:

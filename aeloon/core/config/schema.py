@@ -28,9 +28,7 @@ class AgentDefaults(Base):
 
     workspace: str = "~/.aeloon/workspace"
     model: str = "anthropic/claude-opus-4-5"
-    provider: str = (
-        "auto"  # Provider name, or "auto".
-    )
+    provider: str = "auto"  # Provider name, or "auto".
     max_tokens: int = 8192
     context_window_tokens: int = 65_536
     temperature: float = 0.1
@@ -66,10 +64,10 @@ class ProviderConfig(Base):
 class ProvidersConfig(Base):
     """Provider config."""
 
-    custom: ProviderConfig = Field(default_factory=ProviderConfig)  # Any OpenAI-compatible endpoint.
-    azure_openai: ProviderConfig = Field(
+    custom: ProviderConfig = Field(
         default_factory=ProviderConfig
-    )  # Azure OpenAI deployment.
+    )  # Any OpenAI-compatible endpoint.
+    azure_openai: ProviderConfig = Field(default_factory=ProviderConfig)  # Azure OpenAI deployment.
     anthropic: ProviderConfig = Field(default_factory=ProviderConfig)
     openai: ProviderConfig = Field(default_factory=ProviderConfig)
     openrouter: ProviderConfig = Field(default_factory=ProviderConfig)
@@ -88,9 +86,7 @@ class ProvidersConfig(Base):
     volcengine_coding_plan: ProviderConfig = Field(
         default_factory=ProviderConfig
     )  # VolcEngine Coding Plan.
-    byteplus: ProviderConfig = Field(
-        default_factory=ProviderConfig
-    )  # BytePlus.
+    byteplus: ProviderConfig = Field(default_factory=ProviderConfig)  # BytePlus.
     byteplus_coding_plan: ProviderConfig = Field(
         default_factory=ProviderConfig
     )  # BytePlus Coding Plan.
@@ -128,9 +124,7 @@ class WebSearchConfig(Base):
 class WebToolsConfig(Base):
     """Web tool settings."""
 
-    proxy: str | None = (
-        None  # HTTP or SOCKS5 proxy URL.
-    )
+    proxy: str | None = None  # HTTP or SOCKS5 proxy URL.
     search: WebSearchConfig = Field(default_factory=WebSearchConfig)
 
 
@@ -151,9 +145,7 @@ class MCPServerConfig(Base):
     url: str = ""  # HTTP or SSE endpoint URL.
     headers: dict[str, str] = Field(default_factory=dict)  # Custom headers.
     tool_timeout: int = 30  # Tool timeout in seconds.
-    enabled_tools: list[str] = Field(
-        default_factory=lambda: ["*"]
-    )  # ["*"] means all tools.
+    enabled_tools: list[str] = Field(default_factory=lambda: ["*"])  # ["*"] means all tools.
 
 
 class ToolsConfig(Base):

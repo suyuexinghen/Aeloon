@@ -166,7 +166,9 @@ def set_plugin_enabled(
         return PluginAdminResult(False, "Plugin manager not available.")
     if state_store.set_enabled(name, enabled):
         action = "activated" if enabled else "deactivated"
-        return PluginAdminResult(True, f"Plugin '{name}' {action}. Restart required to take effect.")
+        return PluginAdminResult(
+            True, f"Plugin '{name}' {action}. Restart required to take effect."
+        )
     return PluginAdminResult(False, f"Plugin '{name}' not found in state store.")
 
 
@@ -207,7 +209,11 @@ def format_plugin_errors(plugin_manager: Any, name: str) -> str:
             return f"Plugin '{name}' has no error (status: {record.status})."
         return f"Plugin: {name}\nStatus: {record.status}\nError:\n{record.error}"
 
-    errors = [f"  {pid}: {record.error}" for pid, record in plugin_manager.registry.plugins.items() if record.error]
+    errors = [
+        f"  {pid}: {record.error}"
+        for pid, record in plugin_manager.registry.plugins.items()
+        if record.error
+    ]
     if not errors:
         return "No plugin errors."
     return "Plugin Errors:\n" + "\n".join(errors)

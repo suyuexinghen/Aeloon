@@ -27,7 +27,7 @@ def test_search_returns_primary_evidence_and_related_entries(tmp_path: Path) -> 
     )
     (repo.layout.wiki_concepts / "concept-agent-systems.md").write_text(
         "---\n"
-        'id: concept-agent-systems\n'
+        "id: concept-agent-systems\n"
         "primary_domain: domain-agent-systems\n"
         "domain_refs:\n"
         'title: "Agent Systems"\n'
@@ -41,7 +41,7 @@ def test_search_returns_primary_evidence_and_related_entries(tmp_path: Path) -> 
     )
     (repo.layout.wiki_concepts / "concept-tool-execution.md").write_text(
         "---\n"
-        'id: concept-tool-execution\n'
+        "id: concept-tool-execution\n"
         "primary_domain: domain-agent-systems\n"
         "domain_refs:\n"
         'title: "Tool Execution"\n'
@@ -55,7 +55,7 @@ def test_search_returns_primary_evidence_and_related_entries(tmp_path: Path) -> 
     )
     (repo.layout.wiki_summaries / "summary-agent-overview.md").write_text(
         "---\n"
-        'id: summary-agent-overview\n'
+        "id: summary-agent-overview\n"
         "primary_domain: domain-agent-systems\n"
         "domain_refs:\n"
         'title: "Agent Overview"\n'
@@ -71,7 +71,7 @@ def test_search_returns_primary_evidence_and_related_entries(tmp_path: Path) -> 
     )
     (repo.layout.wiki_concepts / "concept-random-agent-notes.md").write_text(
         "---\n"
-        'id: concept-random-agent-notes\n'
+        "id: concept-random-agent-notes\n"
         "primary_domain: domain-agent-systems\n"
         "domain_refs:\n"
         'title: "Random Agent Notes"\n'
@@ -101,7 +101,7 @@ def test_get_entry_resolves_by_entry_id(tmp_path: Path) -> None:
 
     (repo.layout.wiki_concepts / "concept-agent-systems.md").write_text(
         "---\n"
-        'id: concept-agent-systems\n'
+        "id: concept-agent-systems\n"
         "primary_domain: domain-agent-systems\n"
         "domain_refs:\n"
         'title: "Agent Systems"\n'
@@ -149,8 +149,8 @@ def test_format_map_renders_mermaid_graph(tmp_path: Path) -> None:
     )
     (repo.layout.wiki_concepts / "concept-agent-systems.md").write_text(
         "---\n"
-        'id: concept-agent-systems\n'
-        'type: concept\n'
+        "id: concept-agent-systems\n"
+        "type: concept\n"
         "primary_domain: domain-agent-systems\n"
         "domain_refs:\n"
         "  - domain-research-automation\n"
@@ -165,8 +165,8 @@ def test_format_map_renders_mermaid_graph(tmp_path: Path) -> None:
     )
     (repo.layout.wiki_summaries / "summary-agent-overview.md").write_text(
         "---\n"
-        'id: summary-agent-overview\n'
-        'type: summary\n'
+        "id: summary-agent-overview\n"
+        "type: summary\n"
         "primary_domain: domain-agent-systems\n"
         "domain_refs:\n"
         'title: "Agent Overview"\n'

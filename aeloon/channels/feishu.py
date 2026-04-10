@@ -1053,7 +1053,7 @@ class FeishuChannel(BaseChannel):
             response = self._client.im.v1.message_resource.get(request)
             if response.success():
                 file_data = response.file
-                    # The SDK may return a BytesIO instead of raw bytes.
+                # The SDK may return a BytesIO instead of raw bytes.
                 if hasattr(file_data, "read"):
                     file_data = file_data.read()
                 return file_data, response.file_name

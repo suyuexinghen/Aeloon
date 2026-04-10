@@ -204,7 +204,9 @@ class IngestService:
         """Register manually added files under `raw/files/` that lack metadata."""
         self._repo_service.initialize()
         existing_sources = self.list_sources()
-        known_raw_paths = {source.raw_rel_path for source in existing_sources if source.kind == "file"}
+        known_raw_paths = {
+            source.raw_rel_path for source in existing_sources if source.kind == "file"
+        }
 
         discovered: list[IngestedSource] = []
         for raw_path in sorted(self._repo_service.layout.raw_files.glob("*")):
@@ -221,7 +223,9 @@ class IngestService:
             title = raw_path.stem
             if ext in {"md", "txt"}:
                 try:
-                    title = self._extract_title(raw_path.read_text(encoding="utf-8")) or raw_path.stem
+                    title = (
+                        self._extract_title(raw_path.read_text(encoding="utf-8")) or raw_path.stem
+                    )
                 except OSError:
                     title = raw_path.stem
 
@@ -260,7 +264,9 @@ class IngestService:
             "file_hash": source.file_hash,
             "title": source.title,
         }
-        source.meta_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        source.meta_path.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
 
     def _find_existing_url(self, url: str) -> IngestedSource | None:
         manifest_match = self._manifest_service.find_by_dedupe_key(f"url:{url}")

@@ -35,7 +35,9 @@ def build_cli_group_builder(
 def _register_command(group_app: typer.Typer, spec: CLICommandSpec) -> None:
     """Attach one declared CLI command to a Typer group."""
     if len(spec.flags) > 1:
-        raise ValueError(f"Command '{spec.group_name} {spec.command_name}' supports at most one flag")
+        raise ValueError(
+            f"Command '{spec.group_name} {spec.command_name}' supports at most one flag"
+        )
 
     if spec.message is None and not spec.flags:
 
@@ -114,7 +116,9 @@ def _register_command(group_app: typer.Typer, spec: CLICommandSpec) -> None:
         def _command_with_optional_argument(  # type: ignore[misc]
             message: str | None = typer.Argument(None, help=spec.message.help),
             session: str | None = typer.Option(None, "--session", "-s", help="Session ID"),
-            workspace: str | None = typer.Option(None, "--workspace", "-w", help="Workspace directory"),
+            workspace: str | None = typer.Option(
+                None, "--workspace", "-w", help="Workspace directory"
+            ),
             config: str | None = typer.Option(None, "--config", "-c", help="Config file path"),
         ) -> None:
             """Run one plugin command through the shared plugin CLI runner."""
@@ -168,7 +172,9 @@ def _register_command(group_app: typer.Typer, spec: CLICommandSpec) -> None:
                 help=flag.help,
             ),
             session: str | None = typer.Option(None, "--session", "-s", help="Session ID"),
-            workspace: str | None = typer.Option(None, "--workspace", "-w", help="Workspace directory"),
+            workspace: str | None = typer.Option(
+                None, "--workspace", "-w", help="Workspace directory"
+            ),
             config: str | None = typer.Option(None, "--config", "-c", help="Config file path"),
         ) -> None:
             """Run one plugin command through the shared plugin CLI runner."""
@@ -194,7 +200,9 @@ def _register_command(group_app: typer.Typer, spec: CLICommandSpec) -> None:
                 help=spec.message.help,
             ),
             session: str | None = typer.Option(None, "--session", "-s", help="Session ID"),
-            workspace: str | None = typer.Option(None, "--workspace", "-w", help="Workspace directory"),
+            workspace: str | None = typer.Option(
+                None, "--workspace", "-w", help="Workspace directory"
+            ),
             config: str | None = typer.Option(None, "--config", "-c", help="Config file path"),
         ) -> None:
             """Run one plugin command through the shared plugin CLI runner."""

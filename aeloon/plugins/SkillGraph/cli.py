@@ -24,7 +24,9 @@ def build_skill_compiler_cli_builder(plugin_command: str = "skill_compiler"):
                 help="Fail on strict validation checks",
             ),
             session: str | None = typer.Option(None, "--session", "-s", help="Session ID"),
-            workspace: str | None = typer.Option(None, "--workspace", "-w", help="Workspace directory"),
+            workspace: str | None = typer.Option(
+                None, "--workspace", "-w", help="Workspace directory"
+            ),
             config: str | None = typer.Option(None, "--config", "-c", help="Config file path"),
         ) -> None:
             """Run the SkillGraph compiler through the shared plugin CLI runner."""

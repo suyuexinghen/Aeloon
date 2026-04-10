@@ -27,9 +27,7 @@ def mock_agent_loop() -> MagicMock:
 
 
 def test_manifest_loads() -> None:
-    manifest = load_manifest(
-        Path("aeloon/plugins/Wiki/aeloon.plugin.json")
-    )
+    manifest = load_manifest(Path("aeloon/plugins/Wiki/aeloon.plugin.json"))
     assert manifest.id == "aeloon.wiki"
     assert "wiki" in manifest.provides.commands
 
@@ -341,8 +339,8 @@ async def test_list_and_get_show_wiki_entries(
     page = plugin._repo_service.layout.wiki_concepts / "concept-agent-systems.md"
     page.write_text(
         "---\n"
-        'id: concept-agent-systems\n'
-        'type: concept\n'
+        "id: concept-agent-systems\n"
+        "type: concept\n"
         "primary_domain: domain-agent-systems\n"
         "domain_refs:\n"
         'title: "Agent Systems"\n'
@@ -423,8 +421,8 @@ async def test_map_returns_mermaid_for_existing_entries(
     )
     (plugin._repo_service.layout.wiki_concepts / "concept-agent-systems.md").write_text(
         "---\n"
-        'id: concept-agent-systems\n'
-        'type: concept\n'
+        "id: concept-agent-systems\n"
+        "type: concept\n"
         "primary_domain: domain-agent-systems\n"
         "domain_refs:\n"
         "  - domain-research-automation\n"
@@ -440,8 +438,8 @@ async def test_map_returns_mermaid_for_existing_entries(
     )
     (plugin._repo_service.layout.wiki_summaries / "summary-agent-overview.md").write_text(
         "---\n"
-        'id: summary-agent-overview\n'
-        'type: summary\n'
+        "id: summary-agent-overview\n"
+        "type: summary\n"
         "primary_domain: domain-agent-systems\n"
         "domain_refs:\n"
         'title: "Agent Overview"\n'
@@ -510,7 +508,9 @@ async def test_heavy_wiki_command_runs_in_background_and_replies_on_completion(
     plugin._digest_service.digest_pending = AsyncMock(return_value=[])  # type: ignore[method-assign]
 
     immediate = await plugin._handle_command(ctx, "https://example.com/path")
-    assert immediate == "Wiki task started in the background. I will send the result when it finishes."
+    assert (
+        immediate == "Wiki task started in the background. I will send the result when it finishes."
+    )
     ctx.reply.assert_not_awaited()
 
     gate.set()
@@ -564,7 +564,9 @@ async def test_jobs_reports_running_background_task(
     plugin._ingest_service.ingest_url = AsyncMock(side_effect=_slow_ingest)  # type: ignore[method-assign]
 
     immediate = await plugin._handle_command(ctx, "https://example.com/path")
-    assert immediate == "Wiki task started in the background. I will send the result when it finishes."
+    assert (
+        immediate == "Wiki task started in the background. I will send the result when it finishes."
+    )
 
     jobs = await plugin._handle_command(ctx, "jobs")
     assert jobs is not None

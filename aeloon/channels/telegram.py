@@ -22,9 +22,7 @@ from aeloon.core.config.schema import Base
 from aeloon.utils.helpers import split_message
 
 TELEGRAM_MAX_MESSAGE_LEN = 4000  # Telegram message limit.
-TELEGRAM_REPLY_CONTEXT_MAX_LEN = (
-    TELEGRAM_MAX_MESSAGE_LEN  # Max reply context length.
-)
+TELEGRAM_REPLY_CONTEXT_MAX_LEN = TELEGRAM_MAX_MESSAGE_LEN  # Max reply context length.
 
 
 def _strip_md(s: str) -> str:

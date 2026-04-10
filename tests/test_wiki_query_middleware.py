@@ -98,7 +98,9 @@ async def test_gap_block_for_knowledge_query_without_evidence() -> None:
         channel="cli",
         chat_id="chat",
     )
-    middleware.set_query_service(_FakeQueryService(QueryResult(primary_evidence=[], related_entries=[])))
+    middleware.set_query_service(
+        _FakeQueryService(QueryResult(primary_evidence=[], related_entries=[]))
+    )
     store = UsageModeStore()
     store.set_mode("cli:chat", "local-only")
     middleware.set_usage_mode_store(store)
@@ -127,7 +129,9 @@ async def test_casual_chat_without_evidence_is_unchanged() -> None:
         channel="cli",
         chat_id="chat",
     )
-    middleware.set_query_service(_FakeQueryService(QueryResult(primary_evidence=[], related_entries=[])))
+    middleware.set_query_service(
+        _FakeQueryService(QueryResult(primary_evidence=[], related_entries=[]))
+    )
     middleware.set_usage_mode_store(UsageModeStore())
     await middleware.around_llm(
         [
