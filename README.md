@@ -5,7 +5,8 @@
 <div align="center">
 
 <p align="left">
-  <img src="./assets/AH.svg" alt="Aether Heart" height="60" />
+  <img src="./assets/AE-logo.svg#gh-light-mode-only" alt="Aether Heart" height="60" />
+  <img src="./assets/AE-logo-dark.svg#gh-dark-mode-only" alt="Aether Heart" height="60" />
 </p>
 
 <p align="center">
@@ -13,7 +14,8 @@
 </p>
 
 <p align="center">
-  <img src="./assets/Aeloon.svg" alt="Aeloon" height="40" />
+  <img src="./assets/Aeloon.svg#gh-light-mode-only" alt="Aeloon" height="40" />
+  <img src="./assets/Aeloon-dark.svg#gh-dark-mode-only" alt="Aeloon" height="40" />
 </p>
 
 A **safe · light · fast** AI Agent
@@ -28,7 +30,7 @@ A **safe · light · fast** AI Agent
 
 ## What is Aeloon?
 
-Aeloon is a message-bus-based AI assistant runtime. It unifies LLMs, tool calls, memory, and multi-channel messaging into a single runtime — you talk to it via CLI, Web UI, or IM platforms, and it orchestrates everything.
+Aeloon is a lightweight, high-performance, and modular AI agent framework featuring graph-driven parallel acceleration and flexible hot-swappable plugins for many usages (Deep research, Wiki, SkillGraph, ACP Bridge and StatusPannel).
 
 Core philosophy: **one agent, all platforms, self-hosted data, privacy first.**
 
