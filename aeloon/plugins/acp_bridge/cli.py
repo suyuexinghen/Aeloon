@@ -48,6 +48,28 @@ def acp_cli_specs(plugin_command: str = "acp") -> tuple[CLICommandSpec, ...]:
             message=None,
         ),
         cli.command(
+            "market",
+            help="Browse the ACP registry for installable agents.",
+            args_template="market {message}",
+            message=CLIMessageOptionSpec(
+                help="Optional keyword filter",
+                required=False,
+                default="",
+                parameter_kind="argument",
+            ),
+            slash_paths=(("acp", "market", "<filter>"),),
+        ),
+        cli.command(
+            "install",
+            help="Install an agent from the ACP registry.",
+            args_template="install {message}",
+            message=CLIMessageOptionSpec(
+                help="Agent ID to install",
+                parameter_kind="argument",
+            ),
+            slash_paths=(("acp", "install", "<agent>"),),
+        ),
+        cli.command(
             "help",
             help="Show ACP bridge help.",
             args_template="help",

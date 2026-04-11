@@ -31,6 +31,7 @@ def load_acp_config() -> dict[str, Any]:
             except (json.JSONDecodeError, IOError) as e:
                 # Log warning but continue to fallback
                 import logging
+
                 logging.getLogger(__name__).warning(
                     f"Failed to load ACP config from {config_path}: {e}"
                 )
@@ -71,3 +72,28 @@ class ACPBridgeConfig(BaseModel):
     auto_connect: bool = False
     profiles: dict[str, ProfileConfig] = {}
     policy: PolicyConfig = PolicyConfig()
+
+
+def save_profile_to_acp_config(profile_name: str, profile_data: dict[str, Any]) -> None:
+    """Merge a new profile into ``~/.aeloon/acp.json``, creating the file if needed.
+
+    The file uses camelCase keys to match the rest of the config schema.
+    """
+    config_path = Path.home() / ".aeloon" / "acp.json"
+
+    if config_path.exists():
+        try:
+            with open(config_path, encoding="utf-8") as f:
+                existing = json.load(f)
+        except (json.JSONDecodeError, IOError):
+            existing = {}
+    else:
+        existing = {}
+
+    profiles = existing.setdefault("profiles", {})
+    profiles[profile_name] = profile_data
+
+    config_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(config_path, "w", encoding="utf-8") as f:
+        json.dump(existing, f, indent=2, ensure_ascii=False)
+        f.write("\n")
