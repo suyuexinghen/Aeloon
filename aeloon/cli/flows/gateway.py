@@ -41,8 +41,11 @@ def run_gateway(
     actual_port = port if port is not None else loaded_config.gateway.port
 
     startup_workspace = Path(loaded_config.workspace_path).name or "workspace"
-    console.print(compose_welcome_banner(startup_workspace, loaded_config.agents.defaults.model))
-    console.print()
+    if not loaded_config.agents.defaults.fast:
+        console.print(
+            compose_welcome_banner(startup_workspace, loaded_config.agents.defaults.model)
+        )
+        console.print()
     console.print(
         f"{__logo__} Starting aeloon gateway version {__version__} on port {actual_port}..."
     )

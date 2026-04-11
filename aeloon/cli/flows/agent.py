@@ -563,8 +563,11 @@ def run_agent(
 
     _init_prompt_session(_toolbar)
     startup_workspace = Path(loaded_config.workspace_path).name or "workspace"
-    console.print(compose_welcome_banner(startup_workspace, loaded_config.agents.defaults.model))
-    console.print()
+    if not loaded_config.agents.defaults.fast:
+        console.print(
+            compose_welcome_banner(startup_workspace, loaded_config.agents.defaults.model)
+        )
+        console.print()
 
     existing_session = agent_loop.sessions.get_or_create(
         f"{cli_state['channel']}:{cli_state['chat_id']}"
